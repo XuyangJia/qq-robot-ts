@@ -1,14 +1,14 @@
-import jwt from "jsonwebtoken";
+import jwt, { JsonWebTokenError, JwtPayload, TokenExpiredError } from "jsonwebtoken";
 import config from "../config";
 
 
 function sign(data:any) {
-  return jwt.sign(data, config.jwt.secret as string, {
+  return jwt.sign({admin: data}, config.jwt.secret as string, {
     expiresIn: config.jwt.expire
   })
 }
 
-function verify(token: string) {
+function verify(token: string): {admin: JwtPayload | string | null, error: TokenExpiredError | JsonWebTokenError | null} {
   try {
     const decoded = jwt.verify(token, config.jwt.secret as string)
     return {
@@ -18,8 +18,9 @@ function verify(token: string) {
   } catch (error) {
     return {
       admin: null,
-      error
+      error: error as TokenExpiredError | JsonWebTokenError | null
     }
-    
   }
 }
+
+export { sign, verify}

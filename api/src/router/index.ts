@@ -1,6 +1,10 @@
 import Router from 'koa-router'
-import StockController from '../controller/StockController'
+import IndexController from '../controller/IndexController'
+import LoginController from '../controller/LoginController'
+import { AuthMiddleware } from '../middleware/AuthMiddleware'
 
 const router = new Router()
-router.get('/', StockController.create)
+router.get('/login', LoginController.index)
+router.use(AuthMiddleware)
+router.get('/', IndexController.index)
 export default router

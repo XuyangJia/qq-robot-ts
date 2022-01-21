@@ -4,7 +4,9 @@ import 'dotenv/config'
 import router from './router'
 import config from './config'
 import AccessLogMiddleware from './middleware/AccessLogMiddleware'
+import db from './db'
 
+db()
 const app = new Koa
 // app.use(koaBody({
 //   multipart: true,
